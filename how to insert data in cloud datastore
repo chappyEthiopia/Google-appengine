@@ -1,0 +1,26 @@
+
+                DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+                //you must have cutsomers entity in your datastore
+                Query userQuery = new Query("customers");
+                //filter
+                Query.Filter nameFilter = new Query.FilterPredicate("email",
+                        Query.FilterOperator.EQUAL, email);
+
+                userQuery.setFilter(nameFilter);
+                //populate aslist
+                List<Entity> dbUsers = datastore.prepare(userQuery).asList(FetchOptions.Builder.withDefaults());
+                if (dbUsers.isEmpty()) {
+                
+                Entity userEntity = new Entity("customers");
+                    userEntity.setProperty("meterID", meter);
+                    userEntity.setProperty("address", address);
+                    userEntity.setProperty("dateofcreation", new Date());
+                    userEntity.setProperty("email", email);
+                    userEntity.setProperty("enable", enable);
+                    userEntity.setProperty("givenName", Gname);
+                    userEntity.setProperty("surName", Sname);
+                    userEntity.setProperty("secret", password);
+                    userEntity.setProperty("mread", mread);
+                    datastore.put(userEntity);
+                
+                }
